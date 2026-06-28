@@ -30,14 +30,15 @@ input_df = pd.DataFrame([input_data])
 # The preprocessor automatically handles the one-hot encoding, label encoding, and scaling!
 input_scaled = preprocessor.transform(input_df)
 
-# 5. Predict churn
+# 5. Predict retention
 prediction = model.predict(input_scaled)
-prediction_proba = prediction[0][0]
+churn_proba = prediction[0][0]
+retention_proba = 1 - churn_proba
 
 # 6. Output the results
-print(f"Churn Probability: {prediction_proba:.4f}")
+print(f"Retention Probability: {retention_proba:.4f}")
 
-if prediction_proba > 0.5:
-    print('The customer is likely to churn.')
+if retention_proba < 0.5:
+    print('The customer is at high risk of leaving.')
 else:
-    print('The customer is not likely to churn.')
+    print('The customer is likely to be retained.')

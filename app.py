@@ -12,7 +12,7 @@ with open('preprocessor.pkl', 'rb') as file:
     preprocessor = pickle.load(file)
 
 ## Streamlit app
-st.title('Customer Churn Prediction')
+st.title('Retention AI')
 
 # User input
 geography = st.selectbox('Geography', ['France', 'Germany', 'Spain'])
@@ -27,7 +27,7 @@ has_cr_card = st.selectbox('Has Credit Card', [0, 1])
 is_active_member = st.selectbox('Is Active Member', [0, 1])
 
 # Create a button to trigger the prediction
-if st.button('Predict Churn'):
+if st.button('Predict Retention'):
     
     # Prepare the input data (Must match exact columns used during training)
     input_data = pd.DataFrame({
@@ -46,14 +46,15 @@ if st.button('Predict Churn'):
     # Transform the input data using our single preprocessor pipeline
     input_data_scaled = preprocessor.transform(input_data)
 
-    # Predict churn
+    # Predict retention
     prediction = model.predict(input_data_scaled)
-    prediction_proba = prediction[0][0]
+    churn_proba = prediction[0][0]
+    retention_proba = 1 - churn_proba
 
-    st.write(f'Churn Probability: {prediction_proba:.2f}')
+    st.write(f'Retention Probability: {retention_proba:.2f}')
 
     # Visual feedback based on the result
-    if prediction_proba > 0.5:
-        st.error('The customer is likely to churn.')
+    if retention_proba < 0.5:
+        st.error('The customer is at high risk of leaving.')
     else:
-        st.success('The customer is not likely to churn.')
+        st.success('The customer is likely to be retained.')
