@@ -2,6 +2,8 @@
 
 > A production-style deep learning project that predicts whether a bank customer is likely to leave — built with an ANN in TensorFlow/Keras, a clean sklearn preprocessing pipeline, and an interactive Streamlit UI.
 
+**🚀 Live Demo:** [https://retentify.streamlit.app/](https://retentify.streamlit.app/)
+
 ---
 
 ## Table of Contents
